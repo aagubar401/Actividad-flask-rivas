@@ -22,10 +22,16 @@ productos_tecnologia = [
 ]
 
 
+
+
 @app.route('/')
 def home():
-    return "Bienvenido al catálogo de productos tecnológicos de Angeluco SA"
+    return render_template("base.html")
 
+@app.route('/productos')
+def productos():
+    lista = [x["nombre"] for x in productos_tecnologia]
+    return render_template("index.html", lista=lista)
 
 @app.route('/item/<int:id>')
 def detalle(id):
@@ -33,7 +39,7 @@ def detalle(id):
         if producto["id"] == id:
             item = producto
             break
-    return render_template("templates/detalle.html",
+    return render_template("detalle.html",
                            id_item=item["id"],
                            nombre_item=item["nombre"],
                            precio_item=item["precio"])
